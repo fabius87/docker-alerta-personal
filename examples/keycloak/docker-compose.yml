@@ -14,13 +14,16 @@ services:
       - DEBUG=1  # remove this line to turn DEBUG off
       - DATABASE_URL=postgres://postgres:postgres@alerta-db:5432/monitoring
       - AUTH_REQUIRED=True
-      - ADMIN_USERS=admin@alerta.io,devops@alerta.io
-      - PLUGINS=reject,blackout,normalise,enhance
-      - INSTALL_PLUGINS=normalise,enhance
+      - AUTH_PROVIDER=keycloak
+      - KEYCLOAK_URL=http://keycloak:9088
+      - KEYCLOAK_REALM=master
+      - ALLOWED_KEYCLOAK_ROLES=admin,devops,readonly
+      - OAUTH2_CLIENT_ID=
+      - OAUTH2_CLIENT_SECRET=
     restart: always
   alerta-db:
     image: postgres
-    container_name: postgres
+    container_name: alerta-db
     volumes:
       - ./pg-data:/var/lib/postgresql/data
     environment:
@@ -33,27 +36,12 @@ services:
       image: jboss/keycloak
       container_name: keycloak
       environment:
-        DB_VENDOR: POSTGRES
-        DB_ADDR: keycloak-db
-        DB_DATABASE: keycloak
-        DB_USER: keycloak
-        DB_PASSWORD: password
+        DB_VENDOR: h2
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: Pa55w0rd
+        # KEYCLOAK_IMPORT: /tmp/alerta-realm.json
         # JDBC_PARAMS: "ssl=true"
-      ports:
-        - 8080:8080
-      depends_on:
-        - keycloak-db
-  keycloak-db:
-      image: postgres
       volumes:
-        - postgres_data:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
-
-volumes:
-  postgres_data:
-      driver: local
+        - $PWD/config/alerta-realm.json:/tmp/alerta-realm.json
+      ports:
+        - 8080:9090
