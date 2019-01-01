@@ -15,11 +15,11 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@alerta-db:5432/monitoring
       - AUTH_REQUIRED=True
       - AUTH_PROVIDER=keycloak
-      - KEYCLOAK_URL=http://keycloak:9088
+      - KEYCLOAK_URL=http://keycloak.local.alerta.io:9090
       - KEYCLOAK_REALM=master
       - ALLOWED_KEYCLOAK_ROLES=admin,devops,readonly
-      - OAUTH2_CLIENT_ID=
-      - OAUTH2_CLIENT_SECRET=
+      - OAUTH2_CLIENT_ID=alerta-oidc
+      - OAUTH2_CLIENT_SECRET=9d43f0ad-d215-442e-9b75-5a1a4343be07
     restart: always
   alerta-db:
     image: postgres
@@ -44,4 +44,4 @@ services:
       volumes:
         - $PWD/config/alerta-realm.json:/tmp/alerta-realm.json
       ports:
-        - 8080:9090
+        - 9090:8080
