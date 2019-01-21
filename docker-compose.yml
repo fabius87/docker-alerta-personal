@@ -1,12 +1,13 @@
 version: '3.1'
 services:
   web:
-    build: .
+    #build: .
     # image: alerta/alerta-web
     # volumes:
       # - $PWD/config/alertad.conf.example:/app/alertad.conf
       # - $PWD/config/alerta.conf.example:/app/alerta.conf
       # - $PWD/config/config.js.example:/web/config.js
+    image: docker-alerta-personal_web
     ports:
       - 8080:8080
     depends_on:
@@ -22,6 +23,6 @@ services:
       - "COLORS={'severity': {'fatal': '#303030'}, 'text': 'white'}"
       - "SEVERITY={'fatal': 0}"
       - TRACKING_ID=UA-44644195-6
-      - PLUGINS=reject,blackout,normalise,enhance
-      - INSTALL_PLUGINS=normalise,enhance
+      - PLUGINS=reject,blackout,normalise,enhance,cachet
+      - INSTALL_PLUGINS=normalise,enhance,cachet
     restart: always
