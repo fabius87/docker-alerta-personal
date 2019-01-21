@@ -9,7 +9,8 @@ ARG VERSION
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.url="https://alerta.io" \
-      org.label-schema.vcs-url="https://github.com/alerta/docker-alerta" \
+      #org.label-schema.vcs-url="https://github.com/alerta/docker-alerta" \
+      org.label-schema.vcs-url="https://github.com/fabius87/docker-alerta-personal" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0.0-rc.1"
