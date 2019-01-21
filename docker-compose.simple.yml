@@ -1,7 +1,8 @@
 version: '3.1'
 services:
   web:
-    image: alerta/alerta-web
+    #image: alerta/alerta-web
+    image: docker-alerta-personal_web
     # build: .
     ports:
       - 8080:8080
@@ -12,8 +13,8 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/monitoring
       - AUTH_REQUIRED=True
       - ADMIN_USERS=admin@alerta.io,devops@alerta.io
-      - PLUGINS=reject,blackout,normalise,enhance
-      - INSTALL_PLUGINS=normalise,enhance
+      - PLUGINS=reject,blackout,normalise,enhance,cachet
+      - INSTALL_PLUGINS=normalise,enhance,cachet
     restart: always
   db:
     image: postgres
